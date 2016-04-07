@@ -15,6 +15,11 @@ def exit_handler():
 
 atexit.register(exit_handler)
 
+def checkURL(candidateURL):
+	if "search" not in candidateURL and "?" not in candidateURL and "dmoz" not in candidateURL:
+		return 1
+	else:
+		return 0
 
 def recurseSearch(recurseURL):
 	try:
@@ -28,13 +33,13 @@ def recurseSearch(recurseURL):
 				foo.append("dmoz.org" + str(x))
 			elif str(x).startswith("http"):
 				if x not in fooMain:
-					print(x)
-					fooMain.append(x)
-					target.write(x)
-					target.write("\n")
-					global count
-					count+=1
-					# print(count)
+					if checkURL(x):
+						print(x)
+						fooMain.append(x)
+						target.write(x)
+						target.write("\n")
+						global count
+						count+=1
 			else:
 				# print("http://www.dmoz.org/" + str(x))
 				foo.append("dmoz.org/" + str(x))
@@ -55,13 +60,13 @@ for link in soup.find_all('a'):
 		foo.append("dmoz.org" + str(x))
 	elif str(x).startswith("http"):
 		if x not in fooMain:
-			print(x)
-			fooMain.append(x)
-			target.write(x)
-			target.write("\n")
-			global count
-			count+=1
-			# print(count)
+			if checkURL(x):
+				print(x)
+				fooMain.append(x)
+				target.write(x)
+				target.write("\n")
+				global count
+				count+=1
 	else:
 		# print("http://www.dmoz.org/" + str(x))
 		foo.append("dmoz.org/" + str(x))
